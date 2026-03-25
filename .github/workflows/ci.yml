@@ -101,6 +101,7 @@ jobs:
       - name: Setup Rust
         run: |
           rustup update
+          rustup component add rustfmt
           rustup target add wasm32-unknown-unknown
       - name: Setup Stellar CLI
         uses: stellar/stellar-cli@v23.1.1
