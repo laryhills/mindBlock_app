@@ -97,20 +97,22 @@ jobs:
       run:
         working-directory: contract
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup Rust
-        run: |
-          rustup update stable
-          rustup default stable
-          rustup component add rustfmt
-          rustup target add wasm32-unknown-unknown
-          rustup target add wasm32v1-none
-          rustc --version
-      - name: Setup Stellar CLI
-        uses: stellar/stellar-cli@v23.1.1
-      - name: Check Rust formatting
-        run: cargo fmt --check
-      - name: Build contract
-        run: stellar contract build
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+          targets: wasm32-unknown-unknown
+      - name: Cache dependencies
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "contract"
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+      - name: Run clippy
+        run: cargo clippy --all-targets --all-features -- -D warnings
+      - name: Build Contracts
+        run: cargo build --target wasm32-unknown-unknown --release
       - name: Run tests
         run: cargo test
