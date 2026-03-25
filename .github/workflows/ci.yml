@@ -100,10 +100,12 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup Rust
         run: |
-          rustup update
+          rustup update stable
+          rustup default stable
           rustup component add rustfmt
           rustup target add wasm32-unknown-unknown
           rustup target add wasm32v1-none
+          rustc --version
       - name: Setup Stellar CLI
         uses: stellar/stellar-cli@v23.1.1
       - name: Check Rust formatting
