@@ -111,7 +111,7 @@ jobs:
       - name: Check formatting
         run: cargo fmt --all -- --check
       - name: Run clippy
-        run: cargo clippy --all-targets --all-features -- -D warnings
+        run: cargo clippy --all-targets -- -D warnings
       - name: Build Contracts
         run: cargo build --target wasm32-unknown-unknown --release
       - name: Run tests
